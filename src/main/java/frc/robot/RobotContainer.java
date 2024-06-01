@@ -94,6 +94,8 @@ public class RobotContainer {
 
   private final Trigger DriverRightBumper = driveController.rightBumper();
 
+  
+
   private final Trigger OperatorA = operatorController.a();
 
   private final Trigger OperatorB = operatorController.b();
@@ -145,8 +147,8 @@ public class RobotContainer {
     DriverA.onTrue(new InstantCommand(drivebase::zeroGyro));
     DriverLeftBumper.whileTrue(CreepFPSDrive);
 
-    DriverLeftBumper.whileTrue(new RunLauncherCmd(launcher, () -> 1000)); // .9625
-    DriverBack.and(operatorController.leftBumper()).whileTrue(new RunLauncherCmd(launcher, () -> -100));
+    OperatorLeftBumper.whileTrue(new RunLauncherCmd(launcher, () -> 1000)); // .9625
+    OperatorBack.and(operatorController.leftBumper()).whileTrue(new RunLauncherCmd(launcher, () -> -100));
 
     operatorController.axisGreaterThan(2, 0.09)
         .whileTrue(new RunLauncherCmd(launcher, () -> operatorController.getLeftTriggerAxis() * 1000));
