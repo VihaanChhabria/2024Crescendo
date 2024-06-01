@@ -2,25 +2,26 @@
 // Open Source Software; you can modify and/or share it under the terms of
 // the WPILib BSD license file in the root directory of this project.
 
-package frc.robot.commands;
+package frc.robot.commands.IntakeCmds;
 
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.subsystems.IntakeSubsystem;
 
-public class ToggleIntakeCmd extends Command {
-  /** Creates a new ToggleIntakeCmd. */
-  IntakeSubsystem intake;
+public class SetIntakeDownCmd extends Command {
 
-  public ToggleIntakeCmd(IntakeSubsystem intake) {
+  private IntakeSubsystem intake;
+
+  /** Creates a new SetIntakeUpCmd. */
+  public SetIntakeDownCmd() {
     // Use addRequirements() here to declare subsystem dependencies.
-    this.intake = intake;
+    this.intake = new IntakeSubsystem();
     addRequirements(intake);
   }
 
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    intake.toggleIntake();
+    intake.setIntakeDown();
   }
 
   // Called every time the scheduler runs while the command is scheduled.
@@ -36,6 +37,6 @@ public class ToggleIntakeCmd extends Command {
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    return true;
+    return false;
   }
 }
