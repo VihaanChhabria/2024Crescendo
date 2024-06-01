@@ -34,7 +34,8 @@ public class RunBeltCmd extends Command {
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
-  public void execute() {}
+  public void execute() {
+  }
 
   // Called once the command ends or is interrupted.
   @Override
@@ -45,7 +46,8 @@ public class RunBeltCmd extends Command {
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    if (time != 0 && timer.hasElapsed(time)) return true;
+    if (time != 0 && timer.hasElapsed(time))
+      return true;
     return false;
   }
 }

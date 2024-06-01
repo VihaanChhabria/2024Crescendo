@@ -17,14 +17,15 @@ import frc.robot.subsystems.LauncherSubsystem;
 // https://docs.wpilib.org/en/stable/docs/software/commandbased/convenience-features.html
 public class LuanchCmd extends SequentialCommandGroup {
   /** Creates a new LuanchCmd. */
-  public LuanchCmd(IntakeSubsystem intake, LauncherSubsystem launcher, ConveyorSubsystem conveyor, DoubleSupplier angle) {
+  public LuanchCmd(IntakeSubsystem intake, LauncherSubsystem launcher, ConveyorSubsystem conveyor,
+      DoubleSupplier angle) {
     // Add your commands in the addCommands() call, e.g.
     // addCommands(new FooCommand(), new BarCommand());
-    addCommands(new LauncherAngleCmd(launcher, angle, true, false).withTimeout(.75), 
-                new ParallelCommandGroup(
-                new RunLauncherCmd(launcher, () -> 0.9625).withTimeout(.63),
-                new RunIntakeCmd(intake, -.95).withTimeout(.7),
-                new RunBeltCmd(conveyor, -.945).withTimeout(.7)),
-                new LauncherAngleCmd(launcher, () -> 1.5, false).withTimeout(.63));
+    addCommands(new LauncherAngleCmd(launcher, angle, true, false).withTimeout(.75),
+        new ParallelCommandGroup(
+            new RunLauncherCmd(launcher, () -> 0.9625).withTimeout(.63),
+            new RunIntakeCmd(intake, -.95).withTimeout(.7),
+            new RunBeltCmd(conveyor, -.945).withTimeout(.7)),
+        new LauncherAngleCmd(launcher, () -> 1.5, false).withTimeout(.63));
   }
 }

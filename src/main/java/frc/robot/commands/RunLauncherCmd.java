@@ -12,6 +12,7 @@ import frc.robot.subsystems.*;
 public class RunLauncherCmd extends Command {
   private double speed;
   private final LauncherSubsystem shooter;
+
   /** Creates a new RunIntakeCmd. */
   public RunLauncherCmd(LauncherSubsystem shooter, DoubleSupplier speed) {
     // Use addRequirements() here to declare subsystem dependencies.
@@ -24,18 +25,19 @@ public class RunLauncherCmd extends Command {
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    //Start the motor running at the specified Speed
+    // Start the motor running at the specified Speed
     shooter.setReference(speed);
   }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
-  public void execute() {}
+  public void execute() {
+  }
 
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
-    //Stop the motor
+    // Stop the motor
     shooter.setLeft(0);
     shooter.setRight(0);
   }

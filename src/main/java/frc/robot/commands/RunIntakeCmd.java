@@ -11,6 +11,7 @@ public class RunIntakeCmd extends Command {
   /** Creates a new RunIntakeCmd. */
   IntakeSubsystem intake;
   double speed;
+
   public RunIntakeCmd(IntakeSubsystem intake, double speed) {
     // Use addRequirements() here to declare subsystem dependencies.
     this.intake = intake;
@@ -26,7 +27,8 @@ public class RunIntakeCmd extends Command {
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
-  public void execute() {}
+  public void execute() {
+  }
 
   // Called once the command ends or is interrupted.
   @Override

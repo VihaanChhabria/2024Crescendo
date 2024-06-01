@@ -32,9 +32,12 @@ import swervelib.SwerveDrive;
 import swervelib.parser.SwerveParser;
 
 /**
- * The VM is configured to automatically run this class, and to call the functions corresponding to
- * each mode, as described in the TimedRobot documentation. If you change the name of this class or
- * the package after creating this project, you must also update the build.gradle file in the
+ * The VM is configured to automatically run this class, and to call the
+ * functions corresponding to
+ * each mode, as described in the TimedRobot documentation. If you change the
+ * name of this class or
+ * the package after creating this project, you must also update the
+ * build.gradle file in the
  * project.
  */
 public class Robot extends TimedRobot {
@@ -55,12 +58,14 @@ public class Robot extends TimedRobot {
   private LimelightTarget_Fiducial fiducailHelper = new LimelightTarget_Fiducial();
 
   /**
-   * This function is run when the robot is first started up and should be used for any
+   * This function is run when the robot is first started up and should be used
+   * for any
    * initialization code.
    */
   @Override
   public void robotInit() {
-    // Instantiate our RobotContainer.  This will perform all our button bindings, and put our
+    // Instantiate our RobotContainer. This will perform all our button bindings,
+    // and put our
     // autonomous chooser on the dashboard.
     m_robotContainer = new RobotContainer();
 
@@ -72,35 +77,50 @@ public class Robot extends TimedRobot {
 
     shuffle.setUp();
 
-    if (LimelightHelpers.getTV("limelight-launch") && LimelightHelpers.getTA("limelight-launch") != 0){
-      Pose2d pos = ally.isPresent()?(ally.get()==Alliance.Blue?LimelightHelpers.getBotPose2d_wpiBlue("limelight-launch"):LimelightHelpers.getBotPose2d_wpiRed("limelight-launch")):LimelightHelpers.getBotPose2d_wpiBlue("limelight-launch");
-      //Pose2d betterPos = new Pose2d(new Translation2d(pos.getX(),pos.getY()), driveBase.getHeading());
-      //Pose2d pos2d = new Pose2d(pos.getX(), pos.getY(), new Rotation2d(pos.getRotation().getAngle()));
-      double timestamp = Timer.getFPGATimestamp() - (LimelightHelpers.getLatency_Pipeline("limelight-launch")/1000.0) - (LimelightHelpers.getLatency_Capture("limelight-launch")/1000.0);
+    if (LimelightHelpers.getTV("limelight-launch") && LimelightHelpers.getTA("limelight-launch") != 0) {
+      Pose2d pos = ally.isPresent()
+          ? (ally.get() == Alliance.Blue ? LimelightHelpers.getBotPose2d_wpiBlue("limelight-launch")
+              : LimelightHelpers.getBotPose2d_wpiRed("limelight-launch"))
+          : LimelightHelpers.getBotPose2d_wpiBlue("limelight-launch");
+      // Pose2d betterPos = new Pose2d(new Translation2d(pos.getX(),pos.getY()),
+      // driveBase.getHeading());
+      // Pose2d pos2d = new Pose2d(pos.getX(), pos.getY(), new
+      // Rotation2d(pos.getRotation().getAngle()));
+      double timestamp = Timer.getFPGATimestamp() - (LimelightHelpers.getLatency_Pipeline("limelight-launch") / 1000.0)
+          - (LimelightHelpers.getLatency_Capture("limelight-launch") / 1000.0);
       driveBase.updateOdometry(pos, timestamp);
     }
     // Pose2d pos2d = new Pose2d(1, 52, new Rotation2d(0));
-    // double timestamp = Timer.getFPGATimestamp() - (LimelightHelpers.getLatency_Pipeline("limelight-launch")/1000.0) - (LimelightHelpers.getLatency_Capture("limelight-launch")/1000.0);
+    // double timestamp = Timer.getFPGATimestamp() -
+    // (LimelightHelpers.getLatency_Pipeline("limelight-launch")/1000.0) -
+    // (LimelightHelpers.getLatency_Capture("limelight-launch")/1000.0);
     // driveBase.updateOdometry(pos2d, timestamp);
   }
 
   /**
-   * This function is called every 20 ms, no matter the mode. Use this for items like diagnostics
+   * This function is called every 20 ms, no matter the mode. Use this for items
+   * like diagnostics
    * that you want ran during disabled, autonomous, teleoperated and test.
    *
-  //  * <p>This runs after the mode specific periodic functions, but before LiveWindow and
+   * // *
+   * <p>
+   * This runs after the mode specific periodic functions, but before LiveWindow
+   * and
    * SmartDashboard integrated updating.
    */
   private Optional<Alliance> ally = DriverStation.getAlliance();
 
   @Override
   public void robotPeriodic() {
-    // Runs the Scheduler.  This is responsible for polling buttons, adding newly-scheduled
-    // commands, running already-scheduled commands, removing finished or interrupted commands,
-    // and running subsystem periodic() methods.  This must be called from the robot's periodic
+    // Runs the Scheduler. This is responsible for polling buttons, adding
+    // newly-scheduled
+    // commands, running already-scheduled commands, removing finished or
+    // interrupted commands,
+    // and running subsystem periodic() methods. This must be called from the
+    // robot's periodic
     // block in order for anything in the Command-based framework to work.
     CommandScheduler.getInstance().run();
-    
+
     shuffle.update();
   }
 
@@ -112,32 +132,33 @@ public class Robot extends TimedRobot {
     disabledTimer.start();
   }
 
-
   @Override
   public void disabledPeriodic() {
-    if (disabledTimer.hasElapsed(Constants.Drivebase.WHEEL_LOCK_TIME))
-    {
+    if (disabledTimer.hasElapsed(Constants.Drivebase.WHEEL_LOCK_TIME)) {
       m_robotContainer.setMotorBrake(false);
       disabledTimer.stop();
     }
   }
 
-  /** This autonomous runs the autonomous command selected by your {@link RobotContainer} class. */
+  /**
+   * This autonomous runs the autonomous command selected by your
+   * {@link RobotContainer} class.
+   */
   @Override
   public void autonomousInit() {
     m_robotContainer.setMotorBrake(true);
     m_autonomousCommand = m_robotContainer.getAutonomousCommand(m_chooser.getSelected());
 
     // schedule the autonomous command (example)
-    if (m_autonomousCommand != null)
-    {
+    if (m_autonomousCommand != null) {
       m_autonomousCommand.schedule();
     }
   }
 
   /** This function is called periodically during autonomous. */
   @Override
-  public void autonomousPeriodic() {}
+  public void autonomousPeriodic() {
+  }
 
   @Override
   public void teleopInit() {
@@ -145,23 +166,26 @@ public class Robot extends TimedRobot {
     // teleop starts running. If you want the autonomous to
     // continue until interrupted by another command, remove
     // this line or comment it out.
-    if (m_autonomousCommand != null)
-    {
+    if (m_autonomousCommand != null) {
       m_autonomousCommand.cancel();
     }
     m_robotContainer.setDriveMode();
     m_robotContainer.setMotorBrake(true);
   }
-  
 
   /** This function is called periodically during operator control. */
   @Override
   public void teleopPeriodic() {
-    if (LimelightHelpers.getTV("limelight-launch") && LimelightHelpers.getTA("limelight-launch") != 0){
-      Pose2d pos = ally.isPresent()?(ally.get()==Alliance.Blue?LimelightHelpers.getBotPose2d_wpiBlue("limelight-launch"):LimelightHelpers.getBotPose2d_wpiRed("limelight-launch")):LimelightHelpers.getBotPose2d_wpiBlue("limelight-launch");
-      Pose2d betterPos = new Pose2d(new Translation2d(pos.getX(),pos.getY()), driveBase.getHeading());
-      //Pose2d pos2d = new Pose2d(pos.getX(), pos.getY(), new Rotation2d(pos.getRotation().getAngle()));
-      double timestamp = Timer.getFPGATimestamp() - (LimelightHelpers.getLatency_Pipeline("limelight-launch")/1000.0) - (LimelightHelpers.getLatency_Capture("limelight-launch")/1000.0);
+    if (LimelightHelpers.getTV("limelight-launch") && LimelightHelpers.getTA("limelight-launch") != 0) {
+      Pose2d pos = ally.isPresent()
+          ? (ally.get() == Alliance.Blue ? LimelightHelpers.getBotPose2d_wpiBlue("limelight-launch")
+              : LimelightHelpers.getBotPose2d_wpiRed("limelight-launch"))
+          : LimelightHelpers.getBotPose2d_wpiBlue("limelight-launch");
+      Pose2d betterPos = new Pose2d(new Translation2d(pos.getX(), pos.getY()), driveBase.getHeading());
+      // Pose2d pos2d = new Pose2d(pos.getX(), pos.getY(), new
+      // Rotation2d(pos.getRotation().getAngle()));
+      double timestamp = Timer.getFPGATimestamp() - (LimelightHelpers.getLatency_Pipeline("limelight-launch") / 1000.0)
+          - (LimelightHelpers.getLatency_Capture("limelight-launch") / 1000.0);
       driveBase.updateOdometry(betterPos, timestamp);
     }
   }
@@ -170,24 +194,25 @@ public class Robot extends TimedRobot {
   public void testInit() {
     // Cancels all running commands at the start of test mode.
     CommandScheduler.getInstance().cancelAll();
-    try
-    {
+    try {
       new SwerveParser(new File(Filesystem.getDeployDirectory(), "swerve"));
-    } catch (IOException e)
-    {
+    } catch (IOException e) {
       throw new RuntimeException(e);
     }
   }
 
   /** This function is called periodically during test mode. */
   @Override
-  public void testPeriodic() {}
+  public void testPeriodic() {
+  }
 
   /** This function is called once when the robot is first started up. */
   @Override
-  public void simulationInit() {}
+  public void simulationInit() {
+  }
 
   /** This function is called periodically whilst in simulation. */
   @Override
-  public void simulationPeriodic() {}
+  public void simulationPeriodic() {
+  }
 }

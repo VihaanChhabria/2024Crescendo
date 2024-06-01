@@ -13,12 +13,12 @@ import frc.robot.Constants;
 public class ConveyorSubsystem extends SubsystemBase {
   /** Creates a new ConveyorSubsystem. */
   private static ConveyorSubsystem instance;
-  
+
   private CANSparkMax belt;
 
   public ConveyorSubsystem() {
-    belt = new CANSparkMax(Constants.KLauncherBeltMotorID,MotorType.kBrushless);
-    
+    belt = new CANSparkMax(Constants.KLauncherBeltMotorID, MotorType.kBrushless);
+
     belt.restoreFactoryDefaults();
 
   }
@@ -28,13 +28,12 @@ public class ConveyorSubsystem extends SubsystemBase {
     // This method will be called once per scheduler run
   }
 
-  public void runBelt(double speed)
-  {
+  public void runBelt(double speed) {
     belt.set(speed);
   }
 
-  public static  ConveyorSubsystem getInstance() {
-    if (instance == null){
+  public static ConveyorSubsystem getInstance() {
+    if (instance == null) {
       instance = new ConveyorSubsystem();
       return instance;
     } else {

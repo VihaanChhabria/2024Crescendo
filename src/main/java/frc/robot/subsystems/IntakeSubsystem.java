@@ -24,7 +24,7 @@ public class IntakeSubsystem extends SubsystemBase {
   CANSparkMax intake;
   DoubleSolenoid intakeSolenoid;
   boolean toggle;
-  //Compressor comp = new Compressor(PneumaticsModuleType.CTREPCM);
+  // Compressor comp = new Compressor(PneumaticsModuleType.CTREPCM);
 
   public IntakeSubsystem() {
     intake = new CANSparkMax(Constants.KIntakeMotorID, CANSparkLowLevel.MotorType.kBrushless);
@@ -39,10 +39,12 @@ public class IntakeSubsystem extends SubsystemBase {
     // System.out.print("Whoh you have an intake subsystem!");
     // This method will be called once per scheduler run
   }
-  public void toggleIntake()
-  {
-    if (toggle) intakeSolenoid.set(Value.kForward);
-    else intakeSolenoid.set(Value.kReverse);
+
+  public void toggleIntake() {
+    if (toggle)
+      intakeSolenoid.set(Value.kForward);
+    else
+      intakeSolenoid.set(Value.kReverse);
     toggle = !toggle;
   }
 
@@ -54,8 +56,8 @@ public class IntakeSubsystem extends SubsystemBase {
     return toggle;
   }
 
-  public static IntakeSubsystem getInstance(){
-    if (instance == null){
+  public static IntakeSubsystem getInstance() {
+    if (instance == null) {
       instance = new IntakeSubsystem();
       return instance;
     } else {

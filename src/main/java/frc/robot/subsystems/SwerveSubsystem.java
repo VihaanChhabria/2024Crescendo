@@ -71,8 +71,8 @@ public class SwerveSubsystem extends SubsystemBase {
         new HolonomicPathFollowerConfig(
             new PIDConstants(5.0, 0, 0),
             new PIDConstants(swerveDrive.swerveController.config.headingPIDF.p,
-                             swerveDrive.swerveController.config.headingPIDF.i,
-                             swerveDrive.swerveController.config.headingPIDF.d),
+                swerveDrive.swerveController.config.headingPIDF.i,
+                swerveDrive.swerveController.config.headingPIDF.d),
             4.5,
             swerveDrive.swerveDriveConfiguration.getDriveBaseRadiusMeters(),
             new ReplanningConfig()),
@@ -95,8 +95,10 @@ public class SwerveSubsystem extends SubsystemBase {
   /**
    * Get the path follower with events.
    *
-   * @param pathName       PathPlanner path name.
-   * @param setOdomToStart Set the odometry position to the start of the path.
+   * @param pathName
+   *          PathPlanner path name.
+   * @param setOdomToStart
+   *          Set the odometry position to the start of the path.
    * @return {@link AutoBuilder#followPath(PathPlannerPath)} path command.
    */
   public Command getAutonomousCommand(String pathName, boolean setOdomToStart) {
@@ -115,8 +117,10 @@ public class SwerveSubsystem extends SubsystemBase {
   /**
    * Construct the swerve drive.
    *
-   * @param driveCfg      SwerveDriveConfiguration for the swerve.
-   * @param controllerCfg Swerve Controller.
+   * @param driveCfg
+   *          SwerveDriveConfiguration for the swerve.
+   * @param controllerCfg
+   *          Swerve Controller.
    */
   public SwerveSubsystem(SwerveDriveConfiguration driveCfg, SwerveControllerConfiguration controllerCfg) {
     swerveDrive = new SwerveDrive(driveCfg, controllerCfg, maxSpeed);
@@ -130,20 +134,23 @@ public class SwerveSubsystem extends SubsystemBase {
    * the wheel velocities. Also has field- and robot-relative modes, which affect
    * how the translation vector is used.
    *
-   * @param translation   {@link Translation2d} that is the commanded linear
-   *                      velocity of the robot, in meters per
-   *                      second. In robot-relative mode, positive x is torwards
-   *                      the bow (front) and positive y is
-   *                      torwards port (left). In field-relative mode, positive x
-   *                      is away from the alliance wall
-   *                      (field North) and positive y is torwards the left wall
-   *                      when looking through the driver station
-   *                      glass (field West).
-   * @param rotation      Robot angular rate, in radians per second. CCW positive.
-   *                      Unaffected by field/robot
-   *                      relativity.
-   * @param fieldRelative Drive mode. True for field-relative, false for
-   *                      robot-relative.
+   * @param translation
+   *          {@link Translation2d} that is the commanded linear
+   *          velocity of the robot, in meters per
+   *          second. In robot-relative mode, positive x is torwards
+   *          the bow (front) and positive y is
+   *          torwards port (left). In field-relative mode, positive x
+   *          is away from the alliance wall
+   *          (field North) and positive y is torwards the left wall
+   *          when looking through the driver station
+   *          glass (field West).
+   * @param rotation
+   *          Robot angular rate, in radians per second. CCW positive.
+   *          Unaffected by field/robot
+   *          relativity.
+   * @param fieldRelative
+   *          Drive mode. True for field-relative, false for
+   *          robot-relative.
    */
   public void drive(Translation2d translation, double rotation, boolean fieldRelative) {
     swerveDrive.drive(translation,
@@ -155,7 +162,8 @@ public class SwerveSubsystem extends SubsystemBase {
   /**
    * Drive the robot given a chassis field oriented velocity.
    *
-   * @param velocity Velocity according to the field.
+   * @param velocity
+   *          Velocity according to the field.
    */
   public void driveFieldOriented(ChassisSpeeds velocity) {
     swerveDrive.driveFieldOriented(velocity);
@@ -164,7 +172,8 @@ public class SwerveSubsystem extends SubsystemBase {
   /**
    * Drive according to the chassis robot oriented velocity.
    *
-   * @param velocity Robot oriented {@link ChassisSpeeds}
+   * @param velocity
+   *          Robot oriented {@link ChassisSpeeds}
    */
   public void drive(ChassisSpeeds velocity) {
     swerveDrive.drive(velocity);
@@ -172,7 +181,9 @@ public class SwerveSubsystem extends SubsystemBase {
 
   @Override
   public void periodic() {
-    // SmartDashboard.putString("pose", this.getPose().getX() + "\nY: " + this.getPose().getY() + "\nRotation: " + this.getPose().getRotation().getDegrees());
+    // SmartDashboard.putString("pose", this.getPose().getX() + "\nY: " +
+    // this.getPose().getY() + "\nRotation: " +
+    // this.getPose().getRotation().getDegrees());
   }
 
   @Override
@@ -195,7 +206,8 @@ public class SwerveSubsystem extends SubsystemBase {
    * be called in order for odometry to
    * keep working.
    *
-   * @param initialHolonomicPose The pose to set the odometry to
+   * @param initialHolonomicPose
+   *          The pose to set the odometry to
    */
   public void resetOdometry(Pose2d initialHolonomicPose) {
     swerveDrive.resetOdometry(initialHolonomicPose);
@@ -214,7 +226,8 @@ public class SwerveSubsystem extends SubsystemBase {
   /**
    * Set chassis speeds with closed-loop velocity control.
    *
-   * @param chassisSpeeds Chassis Speeds to set.
+   * @param chassisSpeeds
+   *          Chassis Speeds to set.
    */
   public void setChassisSpeeds(ChassisSpeeds chassisSpeeds) {
     swerveDrive.setChassisSpeeds(chassisSpeeds);
@@ -223,7 +236,8 @@ public class SwerveSubsystem extends SubsystemBase {
   /**
    * Post the trajectory to the field.
    *
-   * @param trajectory The trajectory to post.
+   * @param trajectory
+   *          The trajectory to post.
    */
   public void postTrajectory(Trajectory trajectory) {
     swerveDrive.postTrajectory(trajectory);
@@ -240,7 +254,8 @@ public class SwerveSubsystem extends SubsystemBase {
   /**
    * Sets the drive motors to brake/coast mode.
    *
-   * @param brake True to set motors to brake mode, false for coast.
+   * @param brake
+   *          True to set motors to brake mode, false for coast.
    */
   public void setMotorBrake(boolean brake) {
     swerveDrive.setMotorIdleMode(brake);
@@ -261,10 +276,14 @@ public class SwerveSubsystem extends SubsystemBase {
    * speeds in which direction. The other for
    * the angle of the robot.
    *
-   * @param xInput   X joystick input for the robot to move in the X direction.
-   * @param yInput   Y joystick input for the robot to move in the Y direction.
-   * @param headingX X joystick which controls the angle of the robot.
-   * @param headingY Y joystick which controls the angle of the robot.
+   * @param xInput
+   *          X joystick input for the robot to move in the X direction.
+   * @param yInput
+   *          Y joystick input for the robot to move in the Y direction.
+   * @param headingX
+   *          X joystick which controls the angle of the robot.
+   * @param headingY
+   *          Y joystick which controls the angle of the robot.
    * @return {@link ChassisSpeeds} which can be sent to th Swerve Drive.
    */
   public ChassisSpeeds getTargetSpeeds(double xInput, double yInput, double headingX, double headingY) {
@@ -281,9 +300,12 @@ public class SwerveSubsystem extends SubsystemBase {
   /**
    * Get the chassis speeds based on controller input of 1 joystick and one angle.
    *
-   * @param xInput X joystick input for the robot to move in the X direction.
-   * @param yInput Y joystick input for the robot to move in the Y direction.
-   * @param angle  The angle in as a {@link Rotation2d}.
+   * @param xInput
+   *          X joystick input for the robot to move in the X direction.
+   * @param yInput
+   *          Y joystick input for the robot to move in the Y direction.
+   * @param angle
+   *          The angle in as a {@link Rotation2d}.
    * @return {@link ChassisSpeeds} which can be sent to th Swerve Drive.
    */
   public ChassisSpeeds getTargetSpeeds(double xInput, double yInput, Rotation2d angle) {
@@ -355,30 +377,34 @@ public class SwerveSubsystem extends SubsystemBase {
     swerveDrive.addVisionMeasurement(new Pose2d(3, 3, Rotation2d.fromDegrees(65)), Timer.getFPGATimestamp());
   }
 
-  public void updateOdometry(Pose2d pos, double timestamp){
+  public void updateOdometry(Pose2d pos, double timestamp) {
     swerveDrive.addVisionMeasurement(pos, timestamp);
   }
 
-   private Optional<Alliance> ally = DriverStation.getAlliance();
+  private Optional<Alliance> ally = DriverStation.getAlliance();
 
   public double triangulateDistanceToSpeaker() {
-    // return SmartDashboard.putBoolean("testColorThing", SmartDashboard.getString("driverColor", "Blue")=="Blue")?
-    //       Math.sqrt(Math.pow(0+this.getPose().getX(),2)+Math.pow(5.55-this.getPose().getY(),2)):
-    //       Math.sqrt(Math.pow(this.getPose().getX(),2)+Math.pow(5.55-this.getPose().getY(),2));
-    // return Math.sqrt(Math.pow(0+this.getPose().getX(),2)+Math.pow(5.55-this.getPose().getY(),2));
+    // return SmartDashboard.putBoolean("testColorThing",
+    // SmartDashboard.getString("driverColor", "Blue")=="Blue")?
+    // Math.sqrt(Math.pow(0+this.getPose().getX(),2)+Math.pow(5.55-this.getPose().getY(),2)):
+    // Math.sqrt(Math.pow(this.getPose().getX(),2)+Math.pow(5.55-this.getPose().getY(),2));
+    // return
+    // Math.sqrt(Math.pow(0+this.getPose().getX(),2)+Math.pow(5.55-this.getPose().getY(),2));
     ally = DriverStation.getAlliance();
-    return ally.isPresent()?(ally.get()==Alliance.Blue?
-          this.getPose().getTranslation().getDistance(new Translation2d(0, 5.55)): //Blue
-          this.getPose().getTranslation().getDistance(new Translation2d(16.5, 5.55))): //Red
-          this.getPose().getTranslation().getDistance(new Translation2d(0, 5.55)); //Blue
+    return ally.isPresent()
+        ? (ally.get() == Alliance.Blue ? this.getPose().getTranslation().getDistance(new Translation2d(0, 5.55)) : // Blue
+            this.getPose().getTranslation().getDistance(new Translation2d(16.5, 5.55)))
+        : // Red
+        this.getPose().getTranslation().getDistance(new Translation2d(0, 5.55)); // Blue
   }
 
   public double getAngleToSpeaker() {
     ally = DriverStation.getAlliance();
-    return ally.isPresent()?(ally.get()==Alliance.Blue?
-          Math.atan2(this.getPose().getY()-5.55, this.getPose().getX()): //Blue
-          Math.atan2(this.getPose().getY()-5.55, 16.5-this.getPose().getX())): //Red
-          Math.atan2(this.getPose().getY()-5.55, this.getPose().getX()); //Blue
+    return ally.isPresent()
+        ? (ally.get() == Alliance.Blue ? Math.atan2(this.getPose().getY() - 5.55, this.getPose().getX()) : // Blue
+            Math.atan2(this.getPose().getY() - 5.55, 16.5 - this.getPose().getX()))
+        : // Red
+        Math.atan2(this.getPose().getY() - 5.55, this.getPose().getX()); // Blue
     // return Math.atan2(this.getPose().getY()-5.55, this.getPose().getX());
   }
 }

@@ -41,18 +41,17 @@ public class LauncherSubsystem extends SubsystemBase {
   public LauncherSubsystem() {
     left = new CANSparkMax(Constants.KLeftLauncherMotorID, MotorType.kBrushless);
     right = new CANSparkMax(Constants.KRightLauncherMotorID, MotorType.kBrushless);
-    rotation = new CANSparkMax(Constants.KLauncherPivotMotorID,MotorType.kBrushless);
+    rotation = new CANSparkMax(Constants.KLauncherPivotMotorID, MotorType.kBrushless);
     // rotation = new CANSparkMax(revE,MotorType.kBrushless);
     // left.set
     // pivotAbs = new PIDController(0.075, 0, 0);
 
-
     left.restoreFactoryDefaults();
     right.restoreFactoryDefaults();
     rotation.restoreFactoryDefaults();
-    
+
     rotationPIDController = rotation.getPIDController();
-  
+
     leftPIDController = left.getPIDController();
     rightPIDController = right.getPIDController();
 
@@ -66,7 +65,7 @@ public class LauncherSubsystem extends SubsystemBase {
     leftPIDController.setIZone(Constants.KLlauncherIZ);
     leftPIDController.setFF(Constants.KLlauncherFF);
     leftPIDController.setOutputRange(-1, 1);
-    
+
     rightPIDController.setP(Constants.KRlauncherP);
     rightPIDController.setI(Constants.KRlauncherI);
     rightPIDController.setD(Constants.KRlauncherD);
@@ -90,36 +89,37 @@ public class LauncherSubsystem extends SubsystemBase {
   @Override
   public void periodic() {
     // SmartDashboard.putNumber("Left Launcher Velo: ", leftEncoder.getVelocity());
-    // SmartDashboard.putNumber("Right Launcher Velo: ", rightEncoder.getVelocity());
+    // SmartDashboard.putNumber("Right Launcher Velo: ",
+    // rightEncoder.getVelocity());
     SmartDashboard.putNumber("Left SetRPM: ", leftSet);
     SmartDashboard.putNumber("Right SetRPM: ", rightSet);
   }
 
   // public void setPivotAbsRef(double pos) {
-  //   pivotAbs.setSetpoint(pos);
+  // pivotAbs.setSetpoint(pos);
   // }
   // public void calcSetAbs() {
-  //   rotation.set(pivotAbs.calculate(revE.getAbsolutePosition()));
+  // rotation.set(pivotAbs.calculate(revE.getAbsolutePosition()));
   // }
 
-  public void setLeftReference(double rpm){
-    leftPIDController.setReference(rpm, CANSparkMax.ControlType.kVelocity); 
+  public void setLeftReference(double rpm) {
+    leftPIDController.setReference(rpm, CANSparkMax.ControlType.kVelocity);
     leftSet = rpm;
   }
 
-  public void setRightReference(double rpm){
-    rightPIDController.setReference(rpm, CANSparkMax.ControlType.kVelocity); 
+  public void setRightReference(double rpm) {
+    rightPIDController.setReference(rpm, CANSparkMax.ControlType.kVelocity);
     rightSet = rpm;
   }
 
-  public void setReference(double rpm){
+  public void setReference(double rpm) {
     setLeftReference(rpm);
     setRightReference(-rpm);
   }
 
   public void setAngle(double setpoint) {
     this.setpoint = setpoint;
-    rotationPIDController.setReference(setpoint, CANSparkMax.ControlType.kPosition); 
+    rotationPIDController.setReference(setpoint, CANSparkMax.ControlType.kPosition);
   }
 
   public double getSetpoint() {
@@ -135,21 +135,19 @@ public class LauncherSubsystem extends SubsystemBase {
   }
 
   public double[] getVelocity() {
-    return new double[] {leftEncoder.getVelocity(), rightEncoder.getVelocity()};
+    return new double[] { leftEncoder.getVelocity(), rightEncoder.getVelocity() };
   }
 
-  public void setLeft(double speed){
+  public void setLeft(double speed) {
     left.set(speed);
   }
 
-  public void setRight(double speed){
+  public void setRight(double speed) {
     right.set(-speed);
   }
 
-  
-
-  public static LauncherSubsystem getInstance(){
-    if (instance == null){
+  public static LauncherSubsystem getInstance() {
+    if (instance == null) {
       instance = new LauncherSubsystem();
       return instance;
     } else {

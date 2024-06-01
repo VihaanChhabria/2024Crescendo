@@ -34,7 +34,8 @@ public class ShuffleBoardHandler {
   private SwerveSubsystem swerve;
   private VisionSubsystem vision;
 
-  private GenericEntry launcherSetpoint, launcherEncoder, launcherVelocity, launcherAngleSpeaker, intakeState, odometryX, odometryY, odometryH, angleToSpeaker, odometryUpdated, driverColor, distanceToSpeaker, autoChooser;
+  private GenericEntry launcherSetpoint, launcherEncoder, launcherVelocity, launcherAngleSpeaker, intakeState,
+      odometryX, odometryY, odometryH, angleToSpeaker, odometryUpdated, driverColor, distanceToSpeaker, autoChooser;
   private ShuffleboardLayout launcherGrid, odometryGrid;
 
   private Optional<Alliance> ally = DriverStation.getAlliance();
@@ -56,32 +57,38 @@ public class ShuffleBoardHandler {
 
     CameraServer.startAutomaticCapture();
 
-    
   }
 
   public void setUp() {
-    launcherGrid = tab.getLayout("Launcher", BuiltInLayouts.kGrid).withProperties(Map.of("Number of Columns",1,"Number of Rows",3)).withPosition(0,0).withSize(1,3);
-    odometryGrid = tab.getLayout("Odometry", BuiltInLayouts.kGrid).withProperties(Map.of("Number of Columns",1,"Number of Rows",3)).withPosition(1,0).withSize(1,3);
+    launcherGrid = tab.getLayout("Launcher", BuiltInLayouts.kGrid)
+        .withProperties(Map.of("Number of Columns", 1, "Number of Rows", 3)).withPosition(0, 0).withSize(1, 3);
+    odometryGrid = tab.getLayout("Odometry", BuiltInLayouts.kGrid)
+        .withProperties(Map.of("Number of Columns", 1, "Number of Rows", 3)).withPosition(1, 0).withSize(1, 3);
 
     // autChooser = AutoBuilder.buildAutoChooser();
     // tab.add("Auto Chooser", autChooser).withSize(1,1).withPosition(4,3);
 
-    launcherSetpoint = launcherGrid.add("launcherSetpoint", launcher.getSetpoint()).withPosition(0,0).getEntry();
+    launcherSetpoint = launcherGrid.add("launcherSetpoint", launcher.getSetpoint()).withPosition(0, 0).getEntry();
     launcherEncoder = launcherGrid.add("launcherEncoder", launcher.getAngle()).getEntry();
     launcherVelocity = launcherGrid.add("launcherVelocity", launcher.getVelocity()).getEntry();
-    launcherAngleSpeaker = launcherGrid.add("speakerAngle",-3.06*swerve.triangulateDistanceToSpeaker()+11.9).getEntry();
-    intakeState = tab.add("intakeState", intake.getToggle()).withPosition(0,3).withSize(3,1).getEntry();
-    driverColor = tab.add("driverColor", ally.isPresent()?(ally.get()==Alliance.Red?"Red":"Blue"):"N/A").withSize(2,1).withPosition(3,3).getEntry();
+    launcherAngleSpeaker = launcherGrid.add("speakerAngle", -3.06 * swerve.triangulateDistanceToSpeaker() + 11.9)
+        .getEntry();
+    intakeState = tab.add("intakeState", intake.getToggle()).withPosition(0, 3).withSize(3, 1).getEntry();
+    driverColor = tab.add("driverColor", ally.isPresent() ? (ally.get() == Alliance.Red ? "Red" : "Blue") : "N/A")
+        .withSize(2, 1).withPosition(3, 3).getEntry();
     odometryX = odometryGrid.add("odometryX", swerve.getPose().getX()).getEntry();
     odometryY = odometryGrid.add("odometryY", swerve.getPose().getY()).getEntry();
     odometryH = odometryGrid.add("odometryH", swerve.getPose().getRotation().getDegrees()).getEntry();
     angleToSpeaker = odometryGrid.add("angleToSpeaker", -swerve.getAngleToSpeaker()).getEntry();
     distanceToSpeaker = odometryGrid.add("distanceToSpeaker", swerve.triangulateDistanceToSpeaker()).getEntry();
-    odometryUpdated = tab.add("odometryUpdated?", vision.getArea()!=0).withPosition(5,3).withSize(3,1).getEntry();
+    odometryUpdated = tab.add("odometryUpdated?", vision.getArea() != 0).withPosition(5, 3).withSize(3, 1).getEntry();
 
-
-    //if (CameraServer.getServer("limelight-launch").isValid()) tab.add("limelightLauncher", CameraServer.getServer("limelight-launch")).withPosition(2,0).withSize(3,3).getEntry();
-    // if (CameraServer.getServer("USB Camera 0") != null) tab.add("noteCam", CameraServer.getServer("USB Camera 0")).withPosition(5,0).withSize(3,3).getEntry();
+    // if (CameraServer.getServer("limelight-launch").isValid())
+    // tab.add("limelightLauncher",
+    // CameraServer.getServer("limelight-launch")).withPosition(2,0).withSize(3,3).getEntry();
+    // if (CameraServer.getServer("USB Camera 0") != null) tab.add("noteCam",
+    // CameraServer.getServer("USB Camera
+    // 0")).withPosition(5,0).withSize(3,3).getEntry();
   }
 
   public void update() {
@@ -92,19 +99,22 @@ public class ShuffleBoardHandler {
     launcherSetpoint.setDouble(launcher.getSetpoint());
     launcherEncoder.setDouble(launcher.getAngle());
     launcherVelocity.setDouble(launcher.getVelocity()[0]);
-    launcherAngleSpeaker.setDouble(-3.06*swerve.triangulateDistanceToSpeaker()+11.9);
+    launcherAngleSpeaker.setDouble(-3.06 * swerve.triangulateDistanceToSpeaker() + 11.9);
     intakeState.setBoolean(intake.getToggle());
-    driverColor.setString(ally.isPresent()?(ally.get()==Alliance.Red?"Red":"Blue"):"N/A");
+    driverColor.setString(ally.isPresent() ? (ally.get() == Alliance.Red ? "Red" : "Blue") : "N/A");
     odometryX.setDouble(swerve.getPose().getX());
     odometryY.setDouble(swerve.getPose().getY());
     odometryH.setDouble(swerve.getPose().getRotation().getDegrees());
     angleToSpeaker.setDouble(-swerve.getAngleToSpeaker());
     distanceToSpeaker.setDouble(swerve.triangulateDistanceToSpeaker());
-    odometryUpdated.setBoolean(vision.getArea()!=0);
+    odometryUpdated.setBoolean(vision.getArea() != 0);
 
-    SmartDashboard.putBoolean("testColorThing", SmartDashboard.getString("driverColor", "Blue")=="Blue");
+    SmartDashboard.putBoolean("testColorThing", SmartDashboard.getString("driverColor", "Blue") == "Blue");
 
-    //if (CameraServer.getServer("limelight-launch") != null) tab.add(CameraServer.getServer("limelight-launch")).getEntry();
-    // if (CameraServer.getServer("USB Camera 0") != null) tab.add("noteCam", CameraServer.getServer("USB Camera 0")).withPosition(5,0).withSize(3,3).getEntry();
+    // if (CameraServer.getServer("limelight-launch") != null)
+    // tab.add(CameraServer.getServer("limelight-launch")).getEntry();
+    // if (CameraServer.getServer("USB Camera 0") != null) tab.add("noteCam",
+    // CameraServer.getServer("USB Camera
+    // 0")).withPosition(5,0).withSize(3,3).getEntry();
   }
 }

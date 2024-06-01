@@ -18,7 +18,7 @@ public class VisionSubsystem extends SubsystemBase {
   private double area = 0.0;
   private double v;
   private double[] campose;
-  private double[] def = {0,0,0,0,0,0};
+  private double[] def = { 0, 0, 0, 0, 0, 0 };
 
   private NetworkTable table;
   private NetworkTableEntry tx;
@@ -45,19 +45,18 @@ public class VisionSubsystem extends SubsystemBase {
     area = ta.getDouble(0.0);
     v = tv.getDouble(0.0);
     campose = camposeentry.getDoubleArray(def);
-    //System.out.println(campose[4]);
+    // System.out.println(campose[4]);
   }
 
-
-  public double getX(){
+  public double getX() {
     return x;
   }
 
-  public double gety(){
+  public double gety() {
     return y;
   }
 
-  public double getArea(){
+  public double getArea() {
     return area;
   }
 
@@ -73,8 +72,8 @@ public class VisionSubsystem extends SubsystemBase {
     return campose[2];
   }
 
-  public static VisionSubsystem getInstance(){
-    if (instance == null){
+  public static VisionSubsystem getInstance() {
+    if (instance == null) {
       instance = new VisionSubsystem();
       return instance;
     } else {

@@ -10,6 +10,7 @@ import frc.robot.subsystems.IntakeSubsystem;
 public class ToggleIntakeCmd extends Command {
   /** Creates a new ToggleIntakeCmd. */
   IntakeSubsystem intake;
+
   public ToggleIntakeCmd(IntakeSubsystem intake) {
     // Use addRequirements() here to declare subsystem dependencies.
     this.intake = intake;
@@ -24,11 +25,13 @@ public class ToggleIntakeCmd extends Command {
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
-  public void execute() {}
+  public void execute() {
+  }
 
   // Called once the command ends or is interrupted.
   @Override
-  public void end(boolean interrupted) {}
+  public void end(boolean interrupted) {
+  }
 
   // Returns true when the command should end.
   @Override

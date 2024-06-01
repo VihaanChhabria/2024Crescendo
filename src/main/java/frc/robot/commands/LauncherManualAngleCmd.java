@@ -12,7 +12,6 @@ public class LauncherManualAngleCmd extends Command {
   LauncherSubsystem launcher;
   double setPos;
 
-
   public LauncherManualAngleCmd(LauncherSubsystem launcher, double setPos) {
     // Use addRequirements() here to declare subsystem dependencies.
     this.launcher = launcher;
@@ -33,7 +32,8 @@ public class LauncherManualAngleCmd extends Command {
 
   // Called once the command ends or is interrupted.
   @Override
-  public void end(boolean interrupted) {}
+  public void end(boolean interrupted) {
+  }
 
   // Returns true when the command should end.
   @Override
