@@ -9,8 +9,6 @@ import com.revrobotics.RelativeEncoder;
 import com.revrobotics.SparkPIDController;
 import com.revrobotics.CANSparkLowLevel.MotorType;
 
-import edu.wpi.first.math.controller.PIDController;
-import edu.wpi.first.wpilibj.DutyCycleEncoder;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
@@ -26,8 +24,6 @@ public class LauncherSubsystem extends SubsystemBase {
   private SparkPIDController leftPIDController;
   private SparkPIDController rightPIDController;
   private SparkPIDController rotationPIDController;
-
-  private PIDController pivotAbs;
 
   private RelativeEncoder leftEncoder;
   private RelativeEncoder rightEncoder;
@@ -138,7 +134,12 @@ public class LauncherSubsystem extends SubsystemBase {
     return new double[] { leftEncoder.getVelocity(), rightEncoder.getVelocity() };
   }
 
-  public void setLeft(double speed) {
+  public void setSpeed(double speed) {
+    setLeft(speed);
+    setRight(speed);
+  }
+
+  public void setLeft(double speed){
     left.set(speed);
   }
 

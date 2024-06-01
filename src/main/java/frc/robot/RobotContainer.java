@@ -4,6 +4,24 @@
 
 package frc.robot;
 
+import frc.robot.Constants.OperatorConstants;
+import frc.robot.subsystems.*;
+// import frc.robot.commands.AprilLauncherSetCmd;
+// import frc.robot.commands.CenterOnTagCmd;
+import frc.robot.commands.LauncherAngleCmd;
+import frc.robot.commands.LauncherManualAngleCmd;
+import frc.robot.commands.LuanchCmd;
+import frc.robot.commands.RunBeltCmd;
+// import frc.robot.commands.RunBeltCmd;
+import frc.robot.commands.RunIntakeCmd;
+import frc.robot.commands.RunLauncherCmd;
+import frc.robot.commands.ToggleAmpCmd;
+import frc.robot.commands.ToggleIntakeCmd;
+import frc.robot.commands.DriveCmds.*;
+//import frc.robot.commands.Pathfinding.PathFindToPosCmd;
+//import frc.robot.commands.Pathfinding.StraightToPoseCmd;
+
+import com.ctre.phoenix6.mechanisms.swerve.SwerveModule.DriveRequestType;
 import com.pathplanner.lib.auto.AutoBuilder;
 import com.pathplanner.lib.auto.NamedCommands;
 
@@ -26,10 +44,12 @@ import frc.robot.commands.RunBeltCmd;
 // import frc.robot.commands.RunBeltCmd;
 import frc.robot.commands.RunIntakeCmd;
 import frc.robot.commands.RunLauncherCmd;
+import frc.robot.commands.ToggleAmpCmd;
 import frc.robot.commands.ToggleIntakeCmd;
 //import frc.robot.commands.Pathfinding.PathFindToPosCmd;
 //import frc.robot.commands.Pathfinding.StraightToPoseCmd;
 import frc.robot.commands.DriveCmds.FPSDrive;
+import frc.robot.subsystems.AmpSubsystem;
 import frc.robot.subsystems.ConveyorSubsystem;
 import frc.robot.subsystems.IntakeSubsystem;
 import frc.robot.subsystems.LauncherSubsystem;
@@ -50,6 +70,7 @@ public class RobotContainer {
   private final LauncherSubsystem launcher = LauncherSubsystem.getInstance();
   private final IntakeSubsystem intake = IntakeSubsystem.getInstance();
   private final ConveyorSubsystem conveyor = ConveyorSubsystem.getInstance();
+  private final AmpSubsystem amp = AmpSubsystem.getInstance();
 
   private final CommandXboxController driveController = new CommandXboxController(
       OperatorConstants.kDriverControllerPort);
@@ -148,25 +169,18 @@ public class RobotContainer {
     DriverLeftBumper.whileTrue(CreepFPSDrive);
 
     OperatorLeftBumper.whileTrue(new RunLauncherCmd(launcher, () -> 1000)); // .9625
-    OperatorBack.and(operatorController.leftBumper()).whileTrue(new RunLauncherCmd(launcher, () -> -100));
-
-    operatorController.axisGreaterThan(2, 0.09)
-        .whileTrue(new RunLauncherCmd(launcher, () -> operatorController.getLeftTriggerAxis() * 1000));
-
+    OperatorBack.and(OperatorLeftBumper).whileTrue(new RunLauncherCmd(launcher, () -> -100));
     OperatorRightBumper.whileTrue(new RunBeltCmd(conveyor, -.9));
-    OperatorBack.and(operatorController.rightBumper()).whileTrue(new RunBeltCmd(conveyor, .5));
-
+    OperatorBack.and(OperatorRightBumper).whileTrue(new RunBeltCmd(conveyor, .8));
     OperatorA.whileTrue(new RunIntakeCmd(intake, -.9));
-    OperatorBack.and(operatorController.a()).whileTrue(new RunIntakeCmd(intake, .9));
-
+    OperatorBack.and(OperatorA).whileTrue(new RunIntakeCmd(intake, .9));
     OperatorX.onTrue(new ToggleIntakeCmd(intake));
-
     OperatorB
         .whileTrue(new ParallelCommandGroup(new RunBeltCmd(conveyor, -.9), new RunIntakeCmd(intake, -.9)));
-    OperatorBack.and(operatorController.b())
-        .whileTrue(new ParallelCommandGroup(new RunBeltCmd(conveyor, .7), new RunIntakeCmd(intake, -.9)));
-
-    OperatorStart.onTrue(new InstantCommand(launcher::resetEncoder));
+    OperatorBack.and(OperatorB)
+        .whileTrue(new ParallelCommandGroup(new RunBeltCmd(conveyor, .9625), new RunIntakeCmd(intake, -.9)));
+    OperatorY.onTrue(new ToggleAmpCmd(amp, () -> .7));
+    OperatorStart.whileTrue(new RunLauncherCmd(launcher, () -> .3, false));
   }
 
   public void configureAutonCommands() {
