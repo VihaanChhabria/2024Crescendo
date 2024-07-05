@@ -15,6 +15,8 @@ import frc.robot.commands.RunBeltCmd;
 // import frc.robot.commands.RunBeltCmd;
 import frc.robot.commands.RunIntakeCmd;
 import frc.robot.commands.RunLauncherCmd;
+import frc.robot.commands.SetIntakeDownCmd;
+import frc.robot.commands.SetIntakeUpCmd;
 import frc.robot.commands.ToggleAmpCmd;
 import frc.robot.commands.ToggleIntakeCmd;
 import frc.robot.commands.DriveCmds.*;
@@ -166,19 +168,20 @@ public class RobotContainer {
         DriverA.onTrue(new InstantCommand(drivebase::zeroGyro));
         DriverLeftBumper.whileTrue(CreepFPSDrive);
 
-        OperatorLeftBumper.whileTrue(new RunLauncherCmd(launcher, () -> 1000)); // .9625
-        OperatorBack.and(OperatorLeftBumper).whileTrue(new RunLauncherCmd(launcher, () -> -100));
-        OperatorRightBumper.whileTrue(new RunBeltCmd(conveyor, -.9));
-        OperatorBack.and(OperatorRightBumper).whileTrue(new RunBeltCmd(conveyor, .8));
-        OperatorA.whileTrue(new RunIntakeCmd(intake, -.9));
-        OperatorBack.and(OperatorA).whileTrue(new RunIntakeCmd(intake, .9));
-        OperatorX.onTrue(new ToggleIntakeCmd(intake));
+        OperatorLeftBumper.whileTrue(new RunBeltCmd(conveyor, .9625));
+        OperatorRightBumper.whileTrue(new RunLauncherCmd(launcher, () -> 1000));
         OperatorB
-                .whileTrue(new ParallelCommandGroup(new RunBeltCmd(conveyor, -.9), new RunIntakeCmd(intake, -.9)));
-        OperatorBack.and(OperatorB)
-                .whileTrue(new ParallelCommandGroup(new RunBeltCmd(conveyor, .9625), new RunIntakeCmd(intake, -.9)));
+                .whileTrue(new SetIntakeDownCmd(intake).andThen(new ParallelCommandGroup(
+                                new RunBeltCmd(conveyor, -.9), new RunIntakeCmd(intake, -.9))))
+                .whileFalse(new SetIntakeUpCmd(intake));
         OperatorY.onTrue(new ToggleAmpCmd(amp, () -> .7));
+        OperatorX.onTrue(new ToggleIntakeCmd(intake));
         OperatorStart.whileTrue(new RunLauncherCmd(launcher, () -> .3, false));
+        OperatorA.whileTrue(new RunIntakeCmd(intake, -.9));
+
+        OperatorBack.and(OperatorRightBumper).whileTrue(new RunLauncherCmd(launcher, () -> -100));
+        OperatorBack.and(OperatorA).whileTrue(new RunIntakeCmd(intake, .9));
+        OperatorBack.and(OperatorLeftBumper).whileTrue(new RunBeltCmd(conveyor, -.8));
     }
 
     public void configureAutonCommands() {

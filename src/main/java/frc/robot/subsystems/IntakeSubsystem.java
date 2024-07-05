@@ -40,6 +40,14 @@ public class IntakeSubsystem extends SubsystemBase {
     // This method will be called once per scheduler run
   }
 
+  public void setIntakeDown() {
+    intakeSolenoid.set(Value.kForward);
+  }
+
+  public void setIntakeUp() {
+    intakeSolenoid.set(Value.kReverse);
+  }
+
   public void toggleIntake() {
     if (toggle)
       intakeSolenoid.set(Value.kForward);
